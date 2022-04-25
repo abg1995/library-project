@@ -18,7 +18,7 @@ router.get("/books/create", (req,res,next)  => {
 
 router.post("/books/create", (req,res,next) => {
     
-    //create a object i¡in var instead of putting req.boy to be more specific
+    //create a object in var/const instead of putting req.body to be more specific with info from form 
     const newBook = {
         title: req.body.title,
         description: req.body.description,
@@ -36,13 +36,12 @@ router.post("/books/create", (req,res,next) => {
 })
 
 
-
 router.get("/books/:bookId", (req,res,next) => {
     const id = req.params.bookId;
 
     Book.findById(id)
         .then((bookDetails) => {
-            res.render("books/book-details",{book:bookDetails})  //put the object to send more information
+            res.render("books/book-details",bookDetails)  //put the object to send more information
         })
         .catch( err => {
             console.log("!error getting book details from DB", err)
@@ -51,9 +50,41 @@ router.get("/books/:bookId", (req,res,next) => {
 })
 
 
+router.get("/books/:bookId/edit", (req, res, next) => {
+
+    const id = req.params.bookId;
+    Book.findById(id)
+        .then((bookDetails) => {
+            
+            res.render("books/book-edit", bookDetails);
+        })
+        .catch(err => {
+            console.log("error getting book details from DB", err)
+            next(err);
+        });
+});
 
 
+router.post("/books/:bookId/edit", (req,res,next) => {
 
+    const id =  req.params.bookId;
+
+    const newDetails = {
+        title: req.body.title,
+        author: req.body.author,
+        description: req.body.description,
+        rating: req.body.rating
+    }
+
+    Book.findByIdAndUpdate(id, newDetails)
+    .then((bookFromDB) => {
+        res.redirect(`/books/${bookFromDB._id}`)
+    })
+    .catch(err => {
+        console.log("error updating book details from DB", err)
+        next(err);
+    });
+})
 
 
 module.exports = router;
