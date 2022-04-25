@@ -41,7 +41,7 @@ router.get("/books/:bookId", (req,res,next) => {
 
     Book.findById(id)
         .then((bookDetails) => {
-            res.render("books/book-details",bookDetails)  //put the object to send more information
+            res.render("books/book-details",bookDetails)  //put the object to send more information, changed to follow the excercise like everyone 
         })
         .catch( err => {
             console.log("!error getting book details from DB", err)
