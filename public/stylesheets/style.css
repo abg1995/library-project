@@ -23,3 +23,10 @@ form {
   padding: 1rem;
 }
 
+
+.box {
+  background-color: #eee;
+  border: 1px solid #666;
+  margin: 1rem auto;
+  padding: 1rem;
+}
