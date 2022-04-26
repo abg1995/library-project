@@ -1,21 +1,35 @@
 const Book = require("../models/Book.model");
 const router = require("express").Router();
+const Author = require("../models/author.model")
 
 
-// READ ROUTES 
+// READ ROUTES
 router.get("/books", (req,res,next) => {
-    Book.find() //always returns an array
-    .then( (booksArr) => {
-        res.render("books/books-list",{books: booksArr})
-    })
-    .catch(err => console.log("ther is an error",err))
+    Book.find()//always returns an array
+        .populate('author') 
+        .then( (booksArr) => {
+
+
+            res.render("books/books-list",{books: booksArr})
+        })
+        .catch(err => console.log("ther is an error",err))
 });
 
 //We place this one before the one below because in JS READING ORDER MATTERS
 
 // CREATE ROUTES
 router.get("/books/create", (req,res,next)  => {
-    res.render("books/books-create")
+
+    Author.find()
+
+    .then((authorsArr) => {
+        res.render("books/books-create", {authors: authorsArr})
+    })
+    .catch(err => {
+        console.log("error getting authors from DB", err)
+        next(err);
+    })
+
 })
 
 router.post("/books/create", (req,res,next) => {
@@ -28,13 +42,13 @@ router.post("/books/create", (req,res,next) => {
         rating: req.body.rating,
     }
             Book.create(newBook)
-            .then((bookFromDB) => {
+                .then((bookFromDB) => {
                     res.redirect("/books")
-            })
-            .catch( err => {
+                 })
+                .catch( err => {
                 console.log("error creating book from DB", err)
                 next(err);
-            });
+                 });
 })
 
 
@@ -42,6 +56,7 @@ router.get("/books/:bookId", (req,res,next) => {
     const id = req.params.bookId;
 
     Book.findById(id)
+        .populate('author') 
         .then((bookDetails) => {
             res.render("books/book-details",bookDetails)  //put the object to send more information, changed to follow the excercise like everyone 
         })
