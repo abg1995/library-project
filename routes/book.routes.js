@@ -1,6 +1,8 @@
 const Book = require("../models/Book.model");
 const router = require("express").Router();
 
+
+// READ ROUTES 
 router.get("/books", (req,res,next) => {
     Book.find() //always returns an array
     .then( (booksArr) => {
@@ -11,7 +13,7 @@ router.get("/books", (req,res,next) => {
 
 //We place this one before the one below because in JS READING ORDER MATTERS
 
-
+// CREATE ROUTES
 router.get("/books/create", (req,res,next)  => {
     res.render("books/books-create")
 })
@@ -48,6 +50,8 @@ router.get("/books/:bookId", (req,res,next) => {
             next(err);
         });
 })
+
+//UPDATE ROUTES
 
 
 router.get("/books/:bookId/edit", (req, res, next) => {
