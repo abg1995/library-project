@@ -10,7 +10,7 @@ router.get("/authors", (req,res,next) => {
     Author.find()
 
         .then((authorsArr) => {
-            res.render("authors", {authors: authorsArr})} )
+            res.render("authors/authors-list", {authors: authorsArr})} )
         .catch(err => console.log("there was an error: ", err))
 })
 
