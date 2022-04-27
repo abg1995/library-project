@@ -24,9 +24,25 @@ form {
 }
 
 
+header {
+  text-align: center;
+}
+
 .box {
   background-color: #eee;
   border: 1px solid #666;
   margin: 1rem auto;
   padding: 1rem;
+}
+
+.warning {
+  border: 1px solid rgb(167, 111, 9);
+  background-color: rgb(235, 212, 170);
+  padding: 1rem;
+}
+
+
+input, textarea, select {
+  display: block;
+  margin: 0.5rem 0 1rem;
 }
