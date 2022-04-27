@@ -36,6 +36,9 @@ app.use("/",bookRoutes)
 const authorRoutes = require("./routes/author.routes");
 app.use("/",authorRoutes)
 
+const authenRoutes = require("./routes/authen.routes");
+app.use("/",authenRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 
