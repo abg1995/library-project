@@ -1,9 +1,10 @@
+
 const router = require("express").Router();
 const bcryptjs = require('bcryptjs');
 
 const User = require("../models/User.model");
 
-const saltRounds = 10;
+const saltRounds = 10; // 10 extra random characters that get added to your length password. If pasword is 8 char, total length of salt is 18 + the original length  when hashed #
 
 
 //REGISTRATION: display form
@@ -14,22 +15,22 @@ router.get("/register", (req, res, next) => {
 //REGISTRATION: process form
 router.post("/register", (req, res, next) => {
     
-    const { email, password } = req.body;
+    const { email, password } = req.body; //equivalent to const email = req.body.email & const password = req.body.password
 
     if( !email || !password){
         res.render("auth/register", {errorMessage: "Please provide email and password"});
-        return;
+        return; 
     }
 
     bcryptjs
-        .genSalt(saltRounds)
+        .genSalt(saltRounds)  //can put a number otherwise or in this case the variable from line 7
         .then( salt => {
             return bcryptjs.hash(password, salt);
         })
         .then( hash => {
 
             const userDetails = {
-                email,
+                email, // if key and value are same name you can declare once, same as email: email
                 passwordHash: hash
             }
 
@@ -88,5 +89,14 @@ router.get('/user-profile', (req, res, next) => {
     res.render('auth/user-profile', {user: req.session.currentUser});
 });
 
+//LOGOUT
+router.post('/logout', (req, res, next) => {
+    req.session.destroy(err => {     //Destroy built in function on express session package to log out
+        if (err){ 
+         next(err)
+        };
+        res.redirect('/');
+    });
+});
 
 module.exports = router;
