@@ -4,11 +4,12 @@ const bcryptjs = require('bcryptjs');
 
 const User = require("../models/User.model");
 
+
 const saltRounds = 10; // 10 extra random characters that get added to your length password. If pasword is 8 char, total length of salt is 18 + the original length  when hashed #
 
 
 //REGISTRATION: display form
-router.get("/register", (req, res, next) => {
+router.get("/register",(req, res, next) => {
     res.render("auth/register");
 });
 
@@ -86,7 +87,7 @@ router.post("/login", (req, res, next) => {
 
 
 //PROFILE PAGE
-//PROFILE PAGE
+
 router.get('/user-profile', (req, res, next) => {
     res.render('auth/user-profile');
 });
