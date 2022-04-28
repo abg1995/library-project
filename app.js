@@ -27,6 +27,12 @@ const projectName = "new-app";
 
 app.locals.appTitle = `${capitalized(projectName)} created with IronLauncher`;
 
+app.use((req,res,next) => {
+    res.locals.session = req.session;   //allow access to session data from layout.hbs 
+    next()
+})
+
+
 // 👇 Start handling routes here
 const index = require("./routes/index.routes");
 app.use("/", index);

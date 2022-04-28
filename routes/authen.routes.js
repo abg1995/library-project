@@ -71,6 +71,7 @@ router.post("/login", (req, res, next) => {
             } else if (bcryptjs.compareSync(password, userFromDB.passwordHash)) {
                 //login sucessful
                 req.session.currentUser = userFromDB;
+
                 res.redirect("/user-profile");
             } else {
                 //login failed (password doesn't match)
@@ -85,10 +86,10 @@ router.post("/login", (req, res, next) => {
 
 
 //PROFILE PAGE
+//PROFILE PAGE
 router.get('/user-profile', (req, res, next) => {
-    res.render('auth/user-profile', {user: req.session.currentUser});
+    res.render('auth/user-profile');
 });
-
 //LOGOUT
 router.post('/logout', (req, res, next) => {
     req.session.destroy(err => {     //Destroy built in function on express session package to log out
